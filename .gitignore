@@ -24,3 +24,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+client/src/main/ng/node/*
+client/src/main/ng/node/
