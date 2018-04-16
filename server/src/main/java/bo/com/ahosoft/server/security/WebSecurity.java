@@ -21,7 +21,7 @@ import static bo.com.ahosoft.server.security.Constants.LOGIN_URL;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-	private UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	public WebSecurity(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;

@@ -27,3 +27,8 @@
 
 client/src/main/ng/node/*
 client/src/main/ng/node/
+
+client/src/main/ng/yarn.lock
+client/src/main/ng/package-lock.json
+client/src/main/ng/yarn.lock
+client/src/main/ng/yarn.lock

@@ -15,6 +15,7 @@ import java.util.Objects;
  * Package       : bo.com.ahosoft.server.domain
  **/
 @Entity
+@Table(name = "user_system")
 @Getter
 @Setter
 @ToString
