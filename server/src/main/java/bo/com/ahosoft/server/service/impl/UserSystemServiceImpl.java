@@ -3,7 +3,6 @@ package bo.com.ahosoft.server.service.impl;
 import bo.com.ahosoft.server.domain.UserSystem;
 import bo.com.ahosoft.server.repository.UserSystemRepository;
 import bo.com.ahosoft.server.service.UserSystemService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,14 @@ import java.util.List;
 public class UserSystemServiceImpl implements UserSystemService {
 
     private final UserSystemRepository userSystemRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserSystemServiceImpl(UserSystemRepository userSystemRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserSystemServiceImpl(UserSystemRepository userSystemRepository) {
         this.userSystemRepository = userSystemRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     public UserSystem save(UserSystem userSystem) {
-        userSystem.setPassword(bCryptPasswordEncoder.encode(userSystem.getPassword()));
+
         return userSystemRepository.save(userSystem);
     }
 

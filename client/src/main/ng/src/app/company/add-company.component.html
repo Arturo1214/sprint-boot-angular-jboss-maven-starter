@@ -9,8 +9,7 @@
 
     <div class="form-group">
       <label for="active">Active</label>
-      <input type="radio" [(ngModel)]="company.active" name="active" class="form-control"
-        id="active">
+      <input type="checkbox" name="active" class="form-control" id="active" [(ngModel)]="company.active" checked>
     </div>
 
     <button class="btn btn-success" (click)="createCompany()">Create</button>
