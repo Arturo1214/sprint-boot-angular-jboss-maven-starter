@@ -7,7 +7,9 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by    : Arturo Herrera o.
@@ -18,16 +20,21 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"customer", "buyProducts"})
 public class Buy implements Serializable {
     @Id
     @Column(unique = true, nullable = false, precision = 22)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne
     @JoinColumn(name = "id_customer")
     private Customer customer;
+
     private BigDecimal totalPrice;
+
+    @OneToMany(mappedBy = "buy", cascade = CascadeType.REMOVE)
+    private Set<BuyProduct> buyProducts = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

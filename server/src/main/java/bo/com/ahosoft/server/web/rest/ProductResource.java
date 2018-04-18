@@ -2,9 +2,14 @@ package bo.com.ahosoft.server.web.rest;
 
 import bo.com.ahosoft.server.domain.Product;
 import bo.com.ahosoft.server.service.ProductService;
+import bo.com.ahosoft.server.web.rest.util.PaginationUtil;
 import bo.com.ahosoft.server.web.rest.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +58,11 @@ public class ProductResource {
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProduct() {
-        log.debug("REST request to gel all Products");
-        return productService.findAll();
+    public ResponseEntity<List<Product>> getAllProduct(Pageable pageable) {
+        log.debug("REST request to get all Products : {}", pageable);
+        final Page<Product> page = productService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")

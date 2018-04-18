@@ -2,9 +2,14 @@ package bo.com.ahosoft.server.web.rest;
 
 import bo.com.ahosoft.server.domain.Customer;
 import bo.com.ahosoft.server.service.CustomerService;
+import bo.com.ahosoft.server.web.rest.util.PaginationUtil;
 import bo.com.ahosoft.server.web.rest.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +47,8 @@ public class CustomerResource {
      */
     @PostMapping("/customers")
     
-    public ResponseEntity<Customer> createRegion(@RequestBody Customer customer) throws URISyntaxException {
-        log.debug("REST request to save Region : {}", customer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) throws URISyntaxException {
+        log.debug("REST request to save Customer : {}", customer);
         if (customer.getId() != null) {
             throw new URISyntaxException("A new region cannot already have an ID", ENTITY_NAME + " id exists");
         }
@@ -63,10 +68,10 @@ public class CustomerResource {
      */
     @PutMapping("/customers")
     
-    public ResponseEntity<Customer> updateRegion(@RequestBody Customer customer) throws URISyntaxException {
-        log.debug("REST request to update Region : {}", customer);
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) throws URISyntaxException {
+        log.debug("REST request to update Customer : {}", customer);
         if (customer.getId() == null) {
-            return createRegion(customer);
+            return createCustomer(customer);
         }
         Customer result = customerService.save(customer);
         return ResponseEntity.ok()
@@ -74,15 +79,16 @@ public class CustomerResource {
     }
 
     /**
-     * GET  /customers : get all the customers.
+     * GET /customers : get all customers.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of customers in body
-     */
+     * @param pageable the pagination information
+     * @return  the ResponseEntity with status 200 (OK) and with body all customers
+     * */
     @GetMapping("/customers")
-    
-    public List<Customer> getAllRegions() {
-        log.debug("REST request to get all Regions");
-        return customerService.findAll();
+    public ResponseEntity<List<Customer>> getAllCustomers(Pageable pageable) {
+        final Page<Customer> page = customerService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/customers");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -93,9 +99,16 @@ public class CustomerResource {
      */
     @GetMapping("/customers/{id}")
     
-    public ResponseEntity<Customer> getRegion(@PathVariable Long id) {
-        log.debug("REST request to get Region : {}", id);
+    public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
+        log.debug("REST request to get Customer : {}", id);
         Customer customer = customerService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(customer));
+    }
+
+    @GetMapping("/customer/{nit}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable  Integer nit) {
+        log.debug("REST request to get Customer : {}", nit);
+        Customer customer = customerService.findByNit(nit);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(customer));
     }
 
@@ -106,8 +119,8 @@ public class CustomerResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/customers/{id}")
-    public ResponseEntity<Void> deleteRegion(@PathVariable Long id) {
-        log.debug("REST request to delete Region : {}", id);
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        log.debug("REST request to delete Customer : {}", id);
         customerService.delete(id);
         return ResponseEntity.ok().build();
     }

@@ -5,6 +5,8 @@ import bo.com.ahosoft.server.repository.CustomerRepository;
 import bo.com.ahosoft.server.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +39,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public List<Customer> findAll() {
-        log.debug("Request to gel all customers");
+        log.debug("Request to get all customers");
         return customerRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Customer> findAll(Pageable pageable) {
+        log.debug("Request to get all customers");
+        return customerRepository.findAll(pageable);
     }
 
     @Override

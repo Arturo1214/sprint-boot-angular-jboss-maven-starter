@@ -5,6 +5,8 @@ import bo.com.ahosoft.server.repository.ProductRepository;
 import bo.com.ahosoft.server.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +38,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        log.debug("Request to gel all Products");
+        log.debug("Request to get all Products");
         return productRepository.findAll();
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        log.debug("Request to get all Products pageable");
+        return productRepository.findAll(pageable);
     }
 
     @Override

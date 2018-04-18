@@ -1,7 +1,9 @@
 package bo.com.ahosoft.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,18 +20,24 @@ import java.util.Objects;
 @Table(name = "buy_product")
 @Getter
 @Setter
+@ToString(exclude = {"product", "buy"})
 public class BuyProduct implements Serializable {
     @Id
     @Column(unique = true, nullable = false, precision = 22)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "id_product")
     private Product product;
-    @OneToOne
+
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "id_buy")
     private Buy buy;
+
     private Integer amount;
+
     private BigDecimal totalPrice;
 
     @Override
