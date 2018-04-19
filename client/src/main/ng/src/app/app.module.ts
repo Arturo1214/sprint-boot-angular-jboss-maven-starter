@@ -2,28 +2,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 
-import { AppComponent } from './app.component';
-import { CompanyComponent } from './company/company.component';
-import {AddCompanyComponent} from "./company/add-company.component";
-import {AppRoutingModule} from "./app.routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {CompanyService} from "./company/company.service";
+import {AppHomeModule} from "./home";
+import {AppRoutingModule} from "./app-routing.module";
+import {ErrorComponent, FooterComponent, MainComponent, NavbarComponent} from "./layouts";
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    CompanyComponent,
-    AddCompanyComponent
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule,
+    AppHomeModule
   ],
-  providers: [CompanyService],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [MainComponent]
 })
 export class AppModule { }
