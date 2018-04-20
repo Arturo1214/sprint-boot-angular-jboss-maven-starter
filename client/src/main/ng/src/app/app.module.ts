@@ -7,6 +7,8 @@ import {FormsModule} from "@angular/forms";
 import {AppHomeModule} from "./home";
 import {AppRoutingModule} from "./app-routing.module";
 import {ErrorComponent, FooterComponent, MainComponent, NavbarComponent} from "./layouts";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AppEntityModule} from "./entities/entity.module";
 
 
 @NgModule({
@@ -18,10 +20,12 @@ import {ErrorComponent, FooterComponent, MainComponent, NavbarComponent} from ".
   ],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(),
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    AppHomeModule
+    AppHomeModule,
+    AppEntityModule
   ],
   providers: [],
   bootstrap: [MainComponent]
