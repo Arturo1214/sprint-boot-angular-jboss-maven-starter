@@ -2,6 +2,7 @@ import {productRoute} from "./product.route";
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
 import {RouterModule} from "@angular/router";
 import {ProductComponent} from "./product.component";
+import {SharedModule} from "../../shared";
 
 const ENTITY_STATES = [
   ...productRoute
@@ -9,6 +10,7 @@ const ENTITY_STATES = [
 
 @NgModule({
   imports: [
+    SharedModule,
     RouterModule.forChild(ENTITY_STATES)
   ],
   declarations: [
